@@ -1,0 +1,50 @@
+{% extends 'layouts/layout.html.twig' %}
+
+
+{% block content %}
+
+	<div id="main-content" class="main-content bg-gray">
+
+		<div class="page-header">
+			<h1>{{ pimcore_input('headline', {'placeholder':'Headline'}) }}</h1>
+		</div>
+		{{
+            pimcore_areablock('content', {
+                'allowed': [
+                    'headlines',
+                    'hero-teaser',
+                    'horizontal-line',
+                    'wysiwyg'
+                ]
+            })
+        }}
+
+		<div class="row">
+				{% for blog in posts %}
+                    {# @var blog \Pimcore\Model\DataObject\Blog #}
+					{% set detailLink = app_blog_detaillink(blog) %}
+			<div class="col-md-6">
+						<div class="card text-left m-2"> 
+                    {{  blog.getThumbnail().thumbnail('BlogList').html({imgAttributes: {class: 'card-img-top mb-3'}}) | raw  }}
+                        {# {{ blog.thumbnail.thumbnail("BlogList").html({imgAttributes: {class: 'card-img-top mb-3'}}) | raw }} #}
+						<div class="card-body">
+							<h4 class="card-title">
+								<a href="{{ detailLink }}" class="text-decoration-none text-dark">
+                                    {{ blog.getTitle() }}
+								</a>
+							</h4>
+							<p class="card-text">
+                            {{ blog.excerpt}}
+                                {# {{blog.content|raw|truncate(80,true)}} #}
+
+                            </p>
+						</div>
+					</div>
+			</div>
+
+				{% endfor %}
+		</div>
+
+	</div>
+
+{%  endblock %}

@@ -1,0 +1,18 @@
+
+{% extends 'layouts/layout.html.twig' %}
+
+
+{% block content %}
+
+    <div id="main-content" class="main-content mb-5">
+
+        <div class="page-header">
+            
+        {% if document.getTitle() is empty %}
+            {% do pimcore_head_title(pimcore_input('headline').getData(), 'PREPEND') %}
+        {% endif %}
+
+        </div>
+    </div
+
+{% endblock %}

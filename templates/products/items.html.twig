@@ -1,0 +1,84 @@
+
+{% extends 'layouts/layout.html.twig' %}
+
+
+{% block content %}
+
+    <div id="main-content" class="main-content mb-5">
+
+        <div class="page-header">
+            <h1>Product Page Title</h1>
+        <div class="page-header">
+            <h1>{{ pimcore_input('headline', {'placeholder':'Headline'}) }}</h1>
+        </div>
+
+        <h1>Product Page Content Static</h1>
+        {{
+            pimcore_areablock('content', {
+                'allowed': [
+                    'headlines',
+                    'hero-teaser',
+                    'horizontal-line',
+                    'wysiwyg'
+                ]
+            })
+        }}
+
+        </div>
+
+                <div class="row">
+                {%  for item in items %}
+                    {# @var news \Pimcore\Model\DataObject\News #}
+                    {# {% set detailLink = app_news_detaillink(news) %} #}
+
+                    <div class="col-md-6">
+                    <h2>
+                    {{  item.productName  }}
+                    ({{  item.productPrice  }})</h2>
+
+                    <h5>Category : 
+                            {% for category in item.getCategory() %}
+                                {{ category.CategoryName }}
+                                {% if loop.last == false %}
+    ,
+                                {% endif %}
+                            {% endfor %}
+                    
+                    </h5>
+                    <div style="background:#aaa; padding:10px">
+                    {{  item.getProductImage().thumbnail('newsList').html({imgAttributes: {class: 'mr-3'}}) | raw  }}
+                    </div>
+                    <div style="background:red; padding:10px">
+
+                    {% set image = pimcore_asset(item.productImage) %}
+
+                       {% if item.ProductGallery.items %}
+                            {% for image in item.ProductGallery.items %}
+                            {% if image %}
+                                    {{ image.thumbnail('newsList').html({imgAttributes: {class: 'mr-3'}}) | raw }}
+                               
+                            {% endif %}
+                            
+                            {% endfor %}
+                        {% endif %}
+
+                        
+                    </div>
+
+
+                    </div>
+                    
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="pt-5">
+
+            {% include 'includes/pagination.html.twig' %}
+
+        </div>
+
+
+    </div
+
+{% endblock %}

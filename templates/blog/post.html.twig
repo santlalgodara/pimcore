@@ -1,0 +1,54 @@
+{# @var news \Pimcore\Model\DataObject\News #}
+
+{% extends 'layouts/layout.html.twig' %}
+
+
+{% block content %}
+
+    <div id="main-content" class="main-content mb-5">
+
+        <div class="page-header">
+            <h1>{{ post.title }}</h1>
+        </div>
+
+        {# <div class="text-muted mb-3">{{ post.date | date('Y-m-d h:i A') }}</div> #}
+        <div class="display-6">
+            {{  post.getThumbnail().thumbnail('BlogList').html({imgAttributes: {class: 'mb-3'}}) | raw  }}
+        </div>
+        <div class="display-6">
+            {{ post.excerpt }}
+        </div>
+
+        
+
+        {% if post.content %}
+
+            {{ post.content|raw }}
+        {% endif %}
+{% if post.ImageGallery.items %}
+
+            <div class="row">
+
+                {% for image in post.ImageGallery.items %}
+
+                    {% if image.image %}
+
+                        <div class="col-sm-3 mt-3">
+
+                            <a href="{{ image.getThumbnail('galleryLightbox')|raw }}" class="thumbnail">
+                                {{ image.thumbnail('galleryThumbnail').getHTML({imgAttributes: {class: 'img-thumbnail img-fluid w-100'}})|raw }}
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}
